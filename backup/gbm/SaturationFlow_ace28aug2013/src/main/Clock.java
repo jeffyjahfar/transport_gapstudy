@@ -1,3 +1,5 @@
+package main;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -7,20 +9,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
-import java.util.Calendar;
-
 import javax.swing.JPanel;
 
-public class GSClock extends JPanel {
-	
+class Clock extends JPanel 
+{
 	private int hours = 0;
+
 	private int minutes = 0;
+
 	private int seconds = 0;
-	private int millis = 0;	
+
+	private int millis = 0;
+	
 	private int delay = 1000;
-	
-	private int spacing=10;
-	
+
+	private static final int spacing = 10;
+
 	private static final float twoPi = (float)(2.0 * Math.PI);
 
 	private static final float threePi = (float)(3.0 * Math.PI);
@@ -30,31 +34,36 @@ public class GSClock extends JPanel {
 	// The following in the number of radians per sec or min.
 
 	private static final float radPerSecMin = (float)(Math.PI / 30.0);
-	
-	private int size;
-	private int xcoord;
-	private int ycoord;
-	
+
+	private int size; // height and width of clock face
+
+	private int centerX; // x coord of middle of clock
+
+	private int centerY; // y coord of middle of clock
+
 	private BufferedImage clockImage;
+
 	private javax.swing.Timer t;
 
-	// **********constructor class GSClock ***************
-	public GSClock() 
+
+
+//==================================================== Clock constructor
+	public Clock() 
 	{
 		this.setPreferredSize(new Dimension(100,100));
 
-		this.setBackground(Color.white);
+		//this.setBackground(Color.white);
 
-		this.setForeground(Color.black);
+		//this.setForeground(Color.black);
 
 		t = new javax.swing.Timer(delay,new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				System.out.println("action per");
+				//System.out.println("action per");
 				if(t.isRunning())
 				{
-					System.out.println("action performed...!!!!!");
+					//System.out.println("action performed...!!!!!");
 					update();
 				}
 				
@@ -62,12 +71,14 @@ public class GSClock extends JPanel {
 		});
 		t.setInitialDelay(0);
 	}//end constructor
-	
-	// ************* function update ***************
 
-	// Replace the default update so that the plain background
 
-	// doesn't get drawn.
+
+//=============================================================== update
+
+// Replace the default update so that the plain background
+
+// doesn't get drawn.
 	public void update() 
 	{
 		seconds++;
@@ -85,25 +96,28 @@ public class GSClock extends JPanel {
 		//System.out.println("update...!!!!!");
 		
 	}//end update
-	
-	// ****** function to start timer **************	
+
+
+
+//================================================================ start
+
 	public void start() 
 	{
 		t.start(); // start the timer
-		System.out.println("timer started...!!!!!");
+		//System.out.println("timer started...!!!!!");
 
 	}//end start
-	
-	// ********** function to stop timer ************
+
+
+//================================================================= stop
 
 	public void stop() 
 	{
-		t.stop(); // stop the timer
-		System.out.println("timer stopped...!!");
+		t.stop(); // start the timer
 
 	}//end stop
 
-	// ***********function isRunning************
+	//================================================================= isRunning
 
 	public boolean isRunning() 
 	{
@@ -111,7 +125,7 @@ public class GSClock extends JPanel {
 
 	}//end isRunning
 	
-	// ************ function setDelay ***************
+//================================================================= setDelay
 
 	public void setDelay(int delayInMillisec) 
 	{
@@ -120,27 +134,35 @@ public class GSClock extends JPanel {
 
 	}//end setDelay
 	
-	// *************** function to paint components *********
-	
+//======================================================= paintComponent
+
 	public void paintComponent(Graphics g) 
 	{
 		super.paintComponent(g); // paint background, borders
+
 		Graphics2D g2 = (Graphics2D)g;
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+
+		RenderingHints.VALUE_ANTIALIAS_ON);
+
 		// The panel may have been resized, get current dimensions
+
 		int w = getWidth();
+
 		int h = getHeight();
+
 		size = ((w<h) ? w : h) - 2*spacing;
 
-		xcoord = size/2 + spacing;
+		centerX = size/2 + spacing;
 
-		ycoord = size/2 + spacing;
+		centerY = size/2 + spacing;
 
 		// Create the clock face background image if this is the first time,
 
 		// or if the size of the panel has changed
 
-		if (clockImage == null	|| clockImage.getWidth() != w	|| clockImage.getHeight() != h) 
+		if (clockImage == null	|| clockImage.getWidth() != w		|| clockImage.getHeight() != h) 
 		{
 			clockImage = (BufferedImage)(this.createImage(w, h));
 
@@ -148,13 +170,15 @@ public class GSClock extends JPanel {
 
 			Graphics2D gc = clockImage.createGraphics();
 
-			gc.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+			gc.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+
+			RenderingHints.VALUE_ANTIALIAS_ON);
 
 			drawClockFace(gc);
 		}
 		
 		// Now get the time and draw the hands.
-		
+		/*
 		Calendar now = Calendar.getInstance();
 
 		hours = now.get(Calendar.HOUR);
@@ -163,7 +187,7 @@ public class GSClock extends JPanel {
 
 		seconds = now.get(Calendar.SECOND);
 
-		millis = now.get(Calendar.MILLISECOND);
+		millis = now.get(Calendar.MILLISECOND);*/
 
 		// Draw the clock face from the precomputed image
 
@@ -171,8 +195,8 @@ public class GSClock extends JPanel {
 
 		
 	}//end paintComponent
-	
-	// *************** paint ***************
+
+//======================================================paint
 	public void paint(Graphics g)
 	{
 		super.paint(g);
@@ -180,7 +204,7 @@ public class GSClock extends JPanel {
 		drawClockHands(g);
 	}
 	
-	// ******************* drawClockHands ***********
+//======================================================= drawClockHands
 
 	private void drawClockHands(Graphics g) 
 	{
@@ -190,12 +214,13 @@ public class GSClock extends JPanel {
 
 		int hourRadius = secondRadius/2;
 
-		//second hand
+		// second hand
+
 		float fseconds = seconds + (float)millis/1000;
 
 		float secondAngle = threePi - (radPerSecMin * fseconds);
 
-		drawRadius(g, xcoord, ycoord, secondAngle, 0, secondRadius);
+		drawRadius(g, centerX, centerY, secondAngle, 0, secondRadius);
 
 		// minute hand
 
@@ -203,7 +228,7 @@ public class GSClock extends JPanel {
 
 		float minuteAngle = threePi - (radPerSecMin * fminutes);
 
-		drawRadius(g, xcoord, ycoord, minuteAngle, 0, minuteRadius);
+		drawRadius(g, centerX, centerY, minuteAngle, 0, minuteRadius);
 
 		// hour hand
 
@@ -211,11 +236,11 @@ public class GSClock extends JPanel {
 
 		float hourAngle = threePi - (5 * radPerSecMin * fhours);
 
-		drawRadius(g, xcoord, ycoord, hourAngle, 0, hourRadius);
+		drawRadius(g, centerX, centerY, hourAngle, 0, hourRadius);
 	}//end drawClockHands
 
 
-// ************ drawClockFace *********************
+//======================================================== drawClockFace
 
 	private void drawClockFace(Graphics g) 
 	{
@@ -243,7 +268,7 @@ public class GSClock extends JPanel {
 				ticStart = size/2-5;
 			}
 			
-			drawRadius(g, xcoord, ycoord, radPerSecMin*sec, ticStart , size/2);
+			drawRadius(g, centerX, centerY, radPerSecMin*sec, ticStart , size/2);
 
 		}
 
@@ -308,22 +333,4 @@ public class GSClock extends JPanel {
 		repaint();
 	}//end reset
 	
-	public static void main(String args[])
-	{ GSClock sampleclock = new GSClock();
-	sampleclock.start();
-	sampleclock.stop();
-	}
-	
 }
-	
-	
-	
-	
-	
-	
-	
-	
-
-
-
-  

@@ -1,6 +1,7 @@
 package main;
 
-import java.io.*; 
+import java.io.*;
+ 
 import java.util.*;
 
 public class MainRoadCar {
@@ -58,8 +59,8 @@ public class MainRoadCar {
 	}
 
 	public void checkwithinframe(MainRoadCar CarArray[]){
-		int frameboarderleftx=0;
-		int frameborderrightx=1000;
+		int frameboarderleftx=10;
+		int frameborderrightx=1310;
 		if(xcar>=frameboarderleftx && xcar<=frameborderrightx) {
 			withinframe=true;
 			System.out.println("it is within frame");
